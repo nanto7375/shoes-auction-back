@@ -3,9 +3,10 @@ import bcrypt from "bcrypt";
 
 import conn from "../db/maria";
 import generateAuthToken from "../util/generateAuthToken";
-import { resourceLimits } from "worker_threads";
 
 const router = express.Router();
+
+console.log("hello users");
 
 /* 로그인 */
 router.post("/login", (req: Request, res: Response) => {

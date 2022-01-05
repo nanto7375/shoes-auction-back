@@ -4,6 +4,8 @@ import conn from "../db/maria";
 
 const router = express.Router();
 
+console.log("hello admins");
+
 router.get("/productCount", (req: Request, res: Response) => {
   const query = req.query;
 

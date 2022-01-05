@@ -6,6 +6,8 @@ import { resourceLimits } from "worker_threads";
 
 const router = express.Router();
 
+console.log("hello products");
+
 router.get("/brandList", (req: Request, res: Response) => {
   const sql = `select bi_id, bi_name from t_brand_info where bi_isactive = 'y' order by bi_index`;
 
