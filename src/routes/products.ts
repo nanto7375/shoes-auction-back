@@ -2,11 +2,8 @@ import express, { Request, Response } from "express";
 import { upload } from "../util/upload";
 
 import conn from "../db/maria";
-import { resourceLimits } from "worker_threads";
 
 const router = express.Router();
-
-console.log("hello products");
 
 router.get("/brandList", (req: Request, res: Response) => {
   const sql = `select bi_id, bi_name from t_brand_info where bi_isactive = 'y' order by bi_index`;
@@ -26,6 +23,8 @@ router.get("/brandList", (req: Request, res: Response) => {
 
 router.get("/productList", (req: Request, res: Response) => {
   const query = req.query;
+
+  console.log("hi productList api");
 
   let where = ` where ${query.active}`;
   if (query.searchQuery) where += ` and pi_name like '%${query.searchQuery}%' `;

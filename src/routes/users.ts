@@ -6,8 +6,6 @@ import generateAuthToken from "../util/generateAuthToken";
 
 const router = express.Router();
 
-console.log("hello users");
-
 /* 로그인 */
 router.post("/login", (req: Request, res: Response) => {
   const sql = `select mi_id, mi_pwd, mi_isadmin from t_member_info where mi_id = '${req.body.id.trim()}'`;

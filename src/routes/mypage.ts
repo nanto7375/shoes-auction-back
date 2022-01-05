@@ -4,8 +4,6 @@ import conn from "../db/maria";
 
 const router = express.Router();
 
-console.log("hello mypage");
-
 router.get("/recentProductList", (req: Request, res: Response) => {
   const sql = `select a.pi_id, a.mi_id, pi_name, bi_name, pi_size, pi_quality, pi_img, pi_enddate, pi_isactive, ifnull(pi_maxprice, pi_startprice) pi_price, max(pl_index) new_index
     from t_product_info a inner join t_brand_info b on a.bi_id = b.bi_id inner join t_product_log c on a.pi_id = c.pi_id
