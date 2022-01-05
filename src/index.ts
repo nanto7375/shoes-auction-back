@@ -15,7 +15,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
     origin: [
-      "https://jeongsw-test.s3.ap-northeast-2.amazonaws.com",
+      "https://shoespanda.s3.ap-northeast-2.amazonaws.com",
+      "https://dvt9w98jwwcr9.cloudfront.net",
       "http://localhost:3000",
     ],
     credentials: true,
