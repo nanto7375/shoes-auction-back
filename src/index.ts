@@ -14,7 +14,10 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
   cors({
-    origin: ["http://localhost:3001"],
+    origin: [
+      "https://jeongsw-test.s3.ap-northeast-2.amazonaws.com",
+      "http://localhost:3000",
+    ],
     credentials: true,
   })
 );
