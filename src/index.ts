@@ -17,7 +17,7 @@ app.use(
     origin: [
       "https://shoespanda.s3.ap-northeast-2.amazonaws.com",
       "https://dvt9w98jwwcr9.cloudfront.net",
-      "http://localhost:3000",
+      "https://localhost:3000",
     ],
     credentials: true,
   })
