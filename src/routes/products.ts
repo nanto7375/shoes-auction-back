@@ -24,7 +24,7 @@ router.get("/brandList", (req: Request, res: Response) => {
 router.get("/productList", (req: Request, res: Response) => {
   const query = req.query;
 
-  console.log("hi productList api");
+  // console.log("hi productList api");
 
   let where = ` where ${query.active}`;
   if (query.searchQuery) where += ` and pi_name like '%${query.searchQuery}%' `;
