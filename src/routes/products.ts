@@ -154,7 +154,8 @@ router.post("/upload", (req: Request, res: Response) => {
       res.json({ seuccess: 0 });
     } else {
       console.log("upload 성공!!!!!!!!!!");
-      res.json({ success: 1 });
+      console.log(res.req.file.filename);
+      res.json({ success: true, fileName: res.req.file.filename });
     }
   });
 });

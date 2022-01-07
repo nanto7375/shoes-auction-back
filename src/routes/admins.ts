@@ -85,7 +85,7 @@ router.post("/newActive", (req: Request, res: Response) => {
   // console.log(sql);
 
   conn.query(sql, (error, result) => {
-    console.log(error, result);
+    // console.log(error, result);
     if (!error) {
       if (result.changedRows > 0) res.send();
       else res.status(404).send("해당 상품을 찾을 수 없습니다.");
