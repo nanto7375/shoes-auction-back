@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon --exec ts-node src/index.ts",
-    "build": "tsc && node dist/index.js"
+    "build": "tsc && node dist/index.js",
+    "server": "nodemon --exec ts-node src/index.ts --max-old-space-size=4096"
   },
   "keywords": [],
   "author": "",
