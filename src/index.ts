@@ -16,7 +16,7 @@ app.use(
   cors({
     origin: [
       "https://shoespanda.s3.ap-northeast-2.amazonaws.com",
-      "https://dvt9w98jwwcr9.cloudfront.net",
+      "https://d2p9gdgimhfmnk.cloudfront.net",
       "http://localhost:3000",
     ],
     credentials: true,
