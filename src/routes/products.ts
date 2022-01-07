@@ -146,18 +146,17 @@ router.post("/auction", (req: Request, res: Response) => {
   });
 });
 
-router.post("/upload", (req: Request, res: Response) => {
+router.post("/upload", upload, (req: Request, res: Response, error) => {
   console.log("upload 실행!!!!!!!!!");
-  upload(req, res, (error) => {
-    if (error) {
-      console.log("upload 오류 발생!!!!!!!!");
-      res.json({ seuccess: 0 });
-    } else {
-      console.log("upload 성공!!!!!!!!!!");
-      console.log(res.req.file.filename);
-      res.json({ success: true, fileName: res.req.file.filename });
-    }
-  });
+
+  if (error) {
+    console.log("upload 오류 발생!!!!!!!!");
+    res.json({ seuccess: 0 });
+  } else {
+    console.log("upload 성공!!!!!!!!!!");
+    console.log(res.req.file.filename);
+    res.json({ success: true, fileName: res.req.file.filename });
+  }
 });
 
 router.post("/register", (req: Request, res: Response) => {
