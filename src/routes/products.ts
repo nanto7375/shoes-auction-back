@@ -147,10 +147,15 @@ router.post("/auction", (req: Request, res: Response) => {
 });
 
 router.post("/upload", (req: Request, res: Response) => {
+  console.log("upload 실행!!!!!!!!!");
   upload(req, res, (error) => {
     if (error) {
+      console.log("upload 오류 발생!!!!!!!!");
       res.json({ seuccess: 0 });
-    } else res.json({ success: 1 });
+    } else {
+      console.log("upload 성공!!!!!!!!!!");
+      res.json({ success: 1 });
+    }
   });
 });
 
@@ -158,7 +163,9 @@ router.post("/register", (req: Request, res: Response) => {
   const body = req.body;
   const sql = `call sp_insert_register('${body.productName}', '${body.userId}', '${body.brand}', '${body.size}', '${body.image}', ${body.price}, ${body.period}, '${body.address}', '${body.bank}', '${body.account}')`;
 
-  // console.log("register", sql);
+  console.log(
+    `register의 sql문은 :\n ${sql}\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!`
+  );
 
   conn.query(sql, (error, result) => {
     if (!error) {
