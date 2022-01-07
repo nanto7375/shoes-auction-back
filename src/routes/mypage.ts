@@ -32,7 +32,7 @@ router.get("/buyAuctionCount", (req: Request, res: Response) => {
   let sql = `select count(distinct c.pi_id) as count
   from t_product_info a, t_brand_info b, t_product_auction c ${where} and a.bi_id = b.bi_id and a.pi_id = c.pi_id and c.mi_id = '${query.userId}'`;
 
-  console.log("buyAuctionCount", sql);
+  // console.log("buyAuctionCount", sql);
 
   conn.query(sql, (error, result) => {
     if (!error) {
@@ -48,7 +48,7 @@ router.get("/buyAuctionCount", (req: Request, res: Response) => {
 router.get("/buyAuctionList", (req: Request, res: Response) => {
   const query = req.query;
 
-  console.log(query);
+  // console.log(query);
 
   let where = ` where ${query.active}`;
   if (query.searchQuery) where += ` and ${query.searchQuery} `;
@@ -65,7 +65,7 @@ router.get("/buyAuctionList", (req: Request, res: Response) => {
     inner join (select pi_id, max(pa_price) pi_maxprice from t_product_auction group by pi_id) d on a.pi_id = d.pi_id
     ${where} and c.mi_id = '${query.userId}' group by c.pi_id  ${orderby} ${limit}`;
 
-  console.log("buyAuctionList", sql);
+  // console.log("buyAuctionList", sql);
 
   conn.query(sql, (error, result) => {
     if (!error) {

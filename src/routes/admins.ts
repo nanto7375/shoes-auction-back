@@ -69,7 +69,7 @@ router.post("/newQuality", (req: Request, res: Response) => {
 
   conn.query(sql, (error, result) => {
     if (!error) {
-      console.log(result);
+      // console.log(result);
       if (result.changedRows > 0) res.send();
       else res.status(404).send("해당 상품을 찾을 수 없습니다.");
     } else {
