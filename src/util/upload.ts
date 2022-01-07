@@ -31,7 +31,7 @@ export const upload = multer({
     contentType: multerS3.AUTO_CONTENT_TYPE,
     acl: "public-read",
     key: (req, file, cb) => {
-      cb(null, `${Date.now()}_${file.originalname}`);
+      cb(null, `picture/shoePic/${Date.now()}_${file.originalname}`);
     },
   }),
 }).single("file");
