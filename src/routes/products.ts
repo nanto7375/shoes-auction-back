@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import { upload } from "../util/upload";
 
 import conn from "../db/maria";
+import { Request, Response } from "aws-sdk";
 
 const router = express.Router();
 
@@ -146,18 +147,20 @@ router.post("/auction", (req: Request, res: Response) => {
   });
 });
 
-router.post("/upload", upload, (req: Request, res: Response, error) => {
+router.post("/upload", (req: Request, res: Response) => {
   console.log("upload 실행!!!!!!!!!");
 
-  if (error) {
-    console.log("upload 오류 발생!!!!!!!!");
-    console.log(error);
-    res.status(500).send("사진 업로드에 실패했습니다.");
-  } else {
-    console.log("upload 성공!!!!!!!!!!");
-    console.log(res.req.file.filename);
-    res.json({ success: true, fileName: res.req.file.filename });
-  }
+  upload(req, res, (error) => {
+    if (error) {
+      console.log("upload 오류 발생!!!!!!!!");
+      console.log(error);
+      res.status(500).send("사진 업로드에 실패했습니다.");
+    } else {
+      console.log("upload 성공!!!!!!!!!!");
+      console.log(res.req.file.filename);
+      res.json({ success: true, fileName: res.req.file.filename });
+    }
+  });
 });
 
 router.post("/register", (req: Request, res: Response) => {
