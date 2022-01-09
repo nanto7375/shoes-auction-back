@@ -2,7 +2,6 @@ import express, { Request, Response } from "express";
 import { upload } from "../util/upload";
 
 import conn from "../db/maria";
-import { Request, Response } from "aws-sdk";
 
 const router = express.Router();
 
