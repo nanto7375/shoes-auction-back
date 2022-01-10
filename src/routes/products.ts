@@ -157,6 +157,7 @@ router.post("/upload", (req: Request, res: Response) => {
     } else {
       // console.log("upload 성공!!!!!!!!!!");
       const file = req.file as Express.Multer.File;
+      console.log(file);
       res.json({ success: true, fileName: file.originalname });
     }
   });
