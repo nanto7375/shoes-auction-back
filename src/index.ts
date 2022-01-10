@@ -5,6 +5,8 @@ import products from "./routes/products";
 import mypage from "./routes/mypage";
 import admins from "./routes/admins";
 
+import conn from "./db/maria";
+
 require("express-async-errors");
 
 const app = express();
@@ -35,8 +37,10 @@ app.use("/api/products", products);
 app.use("/api/mypage", mypage);
 app.use("/api/admins", admins);
 
-setInterval(async () => {
+setInterval(() => {
   try {
+    const sql = "call sp_auction_end()";
+    conn.query(sql);
     console.log("dateCheck 실행");
   } catch (error) {
     console.log(error);
