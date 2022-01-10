@@ -35,6 +35,14 @@ app.use("/api/products", products);
 app.use("/api/mypage", mypage);
 app.use("/api/admins", admins);
 
+setInterval(async () => {
+  try {
+    console.log("dateCheck 실행");
+  } catch (error) {
+    console.log(error);
+  }
+}, 60000);
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server listening on port ${port}...`);
