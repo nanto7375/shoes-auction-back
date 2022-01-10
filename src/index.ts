@@ -68,7 +68,7 @@ app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
   console.log(error.stack);
 
   if (error.message === "NotFoundRoute") {
-    res.status(404).send(error.message);
+    return res.status(404).send(error.message);
   }
   res.status(500).send(error.message);
 });
