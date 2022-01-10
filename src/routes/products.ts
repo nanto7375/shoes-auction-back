@@ -156,7 +156,7 @@ router.post("/upload", (req: Request, res: Response) => {
       res.status(500).send("사진 업로드에 실패했습니다.");
     } else {
       // console.log("upload 성공!!!!!!!!!!");
-      // console.log(res.req.file.filename);
+      console.log(res.req.file.filename);
       res.json({ success: true, fileName: res.req.file.filename });
     }
   });
