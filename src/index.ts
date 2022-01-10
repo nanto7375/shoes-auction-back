@@ -70,6 +70,6 @@ app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
     if (error.message === "NotFoundRoute") {
       return res.status(404).send(error.message);
     }
-    // res.status(500).send(error.message);
+    res.status(500).send(error.message);
   }
 });
