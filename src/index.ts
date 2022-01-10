@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import users from "./routes/users";
 import products from "./routes/products";
@@ -24,6 +24,11 @@ app.use(
   })
 );
 
+app.use((req: Request, res: Response, next: NextFunction) => {
+  console.log(JSON.stringify(req.url));
+  next();
+});
+
 app.get("/", (req: Request, res: Response) => {
   res.send("shoes auction backend");
 });
@@ -46,4 +51,20 @@ setInterval(() => {
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server listening on port ${port}...`);
+});
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+  console.log("not found");
+  throw new Error("NotFoundRoute");
+});
+
+app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
+  console.log(error.name);
+  console.log(error.message);
+  console.log(error.stack);
+
+  if (error.message === "NotFoundRoute") {
+    res.status(404).send(error.message);
+  }
+  res.status(500).send(error.message);
 });
