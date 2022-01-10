@@ -38,6 +38,10 @@ app.use("/api/products", products);
 app.use("/api/mypage", mypage);
 app.use("/api/admins", admins);
 
+app.use("/api/products/productDateCheck", (req: Request, res: Response) => {
+  res.send("ok");
+});
+
 setInterval(() => {
   try {
     const sql = "call sp_auction_end()";
