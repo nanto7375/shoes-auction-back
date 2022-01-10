@@ -215,19 +215,4 @@ router.get("/address", (req: Request, res: Response) => {
   });
 });
 
-// router.post("/productDateCheck", (req: Request, res: Response) => {
-//   const sql = "call sp_auction_end()";
-
-//   conn.query(sql, (error, result) => {
-//     if (!error) {
-//       // console.log(result);
-//       if (result.protocol41) res.send();
-//       else res.status(400).send("상품 마감 날짜 체크에 실패했습니다.");
-//     } else {
-//       console.log("products/post/register error");
-//       throw error;
-//     }
-//   });
-// });
-
 export default router;

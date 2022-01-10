@@ -24,10 +24,6 @@ app.use(
   })
 );
 
-// process.on("uncaughtException", (ex) => {
-//   console.log("WE GOT AN UNCAUGHT EXCEPTION");
-// });
-
 app.get("/", (req: Request, res: Response) => {
   res.send("shoes auction backend");
 });
@@ -41,7 +37,7 @@ setInterval(() => {
   try {
     const sql = "call sp_auction_end()";
     conn.query(sql);
-    console.log("dateCheck 실행");
+    // console.log("dateCheck 실행");
   } catch (error) {
     console.log(error);
   }
