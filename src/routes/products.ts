@@ -172,8 +172,8 @@ router.post("/register", (req: Request, res: Response) => {
 
   conn.query(sql, (error, result) => {
     if (!error) {
-      console.log(result);
-      if (result.affectedRows > 0) res.send();
+      // console.log(result);
+      if (result.affectedRows > 2) res.send();
       else res.status(400).send("상품 등록에 실패했습니다.");
     } else {
       console.log("products/post/register error");
