@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import Joi from "joi";
 import auth from "../middleware/auth";
 import { upload } from "../util/upload";
 
@@ -132,6 +133,9 @@ router.get("/auctionCount", (req: Request, res: Response) => {
 });
 
 router.post("/auction", auth, (req: Request, res: Response) => {
+  if (!auctionSchema.validate(req.body))
+    return res.status(400).send("유효하지 않은 값을 입력했습니다.");
+
   const sql = `call sp_insert_auction('${req.body.userId}', '${req.body.productId}', ${req.body.price})`;
 
   // console.log("auction", sql);
@@ -216,6 +220,12 @@ router.get("/address", (req: Request, res: Response) => {
       throw error;
     }
   });
+});
+
+const auctionSchema = Joi.object({
+  userId: Joi.string().max(20).required(),
+  productId: Joi.string().max(20).required(),
+  price: Joi.number().integer().max(1000000000).required(),
 });
 
 export default router;
