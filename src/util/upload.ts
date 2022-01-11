@@ -16,7 +16,7 @@
 
 import multer from "multer";
 import multerS3 from "multer-s3";
-const aws = require("aws-sdk");
+import aws from "aws-sdk";
 
 const s3 = new aws.S3({
   accessKeyId: process.env.AWS_KEYID,
