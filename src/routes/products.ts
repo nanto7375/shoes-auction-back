@@ -181,6 +181,8 @@ router.post("/auction", auth, (req: Request, res: Response) => {
 
 router.post("/upload", (req: Request, res: Response) => {
   console.log("upload 실행!!!!!!!!!");
+  console.log(req.body);
+  console.log(req.body.data);
   const bucketParams = {
     Bucket: "shoespanda",
     // Specify the name of the new object. For example, 'index.html'.
