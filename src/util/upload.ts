@@ -19,7 +19,9 @@ import multerS3 from "multer-s3";
 // import { S3 } from "aws-sdk";
 //import * as S3 from " aws-sdk/clients/s3";
 
-const S3 = require("aws-sdk");
+// const S3 = require("aws-sdk");
+
+import S3 from "aws-sdk/clients/s3";
 const s3 = new S3({
   accessKeyId: process.env.AWS_KEYID,
   secretAccessKey: process.env.AWS_PRIVATEKEY,
