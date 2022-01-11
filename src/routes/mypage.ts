@@ -1,10 +1,10 @@
 import express, { Request, Response } from "express";
-
+import auth from "../middleware/auth";
 import conn from "../db/maria";
 
 const router = express.Router();
 
-router.get("/recentProductList", (req: Request, res: Response) => {
+router.get("/recentProductList", auth, (req: Request, res: Response) => {
   const sql = `select a.pi_id, a.mi_id, pi_name, bi_name, pi_size, pi_quality, pi_img, pi_enddate, pi_isactive, ifnull(pi_maxprice, pi_startprice) pi_price, max(pl_index) new_index
     from t_product_info a inner join t_brand_info b on a.bi_id = b.bi_id inner join t_product_log c on a.pi_id = c.pi_id
     left outer join (select pi_id, max(pa_price) pi_maxprice from t_product_auction group by pi_id) d on a.pi_id = d.pi_id
@@ -45,7 +45,7 @@ router.get("/buyAuctionCount", (req: Request, res: Response) => {
   });
 });
 
-router.get("/buyAuctionList", (req: Request, res: Response) => {
+router.get("/buyAuctionList", auth, (req: Request, res: Response) => {
   const query = req.query;
 
   // console.log(query);
@@ -100,7 +100,7 @@ router.get("/sellAuctionCount", (req: Request, res: Response) => {
   });
 });
 
-router.get("/sellAuctionList", (req: Request, res: Response) => {
+router.get("/sellAuctionList", auth, (req: Request, res: Response) => {
   const query = req.query;
 
   let where = ` where ${query.active}`;
