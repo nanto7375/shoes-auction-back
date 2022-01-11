@@ -180,12 +180,16 @@ router.post("/auction", auth, (req: Request, res: Response) => {
 // });
 
 router.post("/upload", (req: Request, res: Response) => {
-  // console.log("upload 실행!!!!!!!!!");
-
-  console.log(req.body);
-  // console.log("File : " + req.file);
+  console.log("upload 실행!!!!!!!!!");
+  const bucketParams = {
+    Bucket: "shoespanda/picture/shoePic",
+    // Specify the name of the new object. For example, 'index.html'.
+    // To create a directory for the object, use '/'. For example, 'myApp/package.json'.
+    Key: "testtest",
+    // Content of the new object.
+    Body: "testtest",
+  };
   const run = async () => {
-    const bucketParams = upload(req, res, req.file);
     try {
       const data = await s3Client.send(new PutObjectCommand(bucketParams));
       console.log(
@@ -194,24 +198,12 @@ router.post("/upload", (req: Request, res: Response) => {
           "/" +
           bucketParams.Key
       );
-
       return data; // For unit tests.
     } catch (err) {
       console.log("Error", err);
     }
   };
-
-  const data = run();
-  if (!data) {
-    // console.log("upload 오류 발생!!!!!!!!");
-    res.status(500).send("사진 업로드에 실패했습니다.");
-  } else {
-    // console.log("upload 성공!!!!!!!!!!");
-    const file: any = req.file as Express.Multer.File;
-    console.log(file.key);
-    const filename = file.key.substring(file.key.lastIndexOf("/") + 1);
-    res.json({ success: true, fileName: filename });
-  }
+  run();
 });
 
 router.post("/register", (req: Request, res: Response) => {
