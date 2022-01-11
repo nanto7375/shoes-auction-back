@@ -9,9 +9,9 @@ export default function (req, res, next) {
   try {
     const decoded: any = jwt.verify(token, config.get("jwtPrivateKey"));
     console.log(decoded);
-    if (decoded.id === req.query.id || decoded.id === req.query.userId)
-      return next();
-    res.status(400).send("토큰 정보가 다릅니다.");
+    if (decoded.id !== req.query.id && decoded.id !== req.query.userId)
+      return res.status(400).send("토큰 정보가 다릅니다.");
+    next();
   } catch (ex) {
     res.status(400).send("인가된 사용자가 아닙니다.");
   }
