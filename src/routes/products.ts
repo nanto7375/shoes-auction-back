@@ -7,6 +7,12 @@ import conn from "../db/maria";
 
 const router = express.Router();
 
+const auctionSchema = Joi.object({
+  userId: Joi.string().max(20).required(),
+  productId: Joi.string().max(20).required(),
+  price: Joi.number().integer().max(1000000000).required(),
+});
+
 router.get("/brandList", (req: Request, res: Response) => {
   const sql = `select bi_id, bi_name from t_brand_info where bi_isactive = 'y' order by bi_index`;
 
@@ -133,6 +139,7 @@ router.get("/auctionCount", (req: Request, res: Response) => {
 });
 
 router.post("/auction", auth, (req: Request, res: Response) => {
+  console.log(req.body);
   if (!auctionSchema.validate(req.body))
     return res.status(400).send("유효하지 않은 값을 입력했습니다.");
 
@@ -220,12 +227,6 @@ router.get("/address", (req: Request, res: Response) => {
       throw error;
     }
   });
-});
-
-const auctionSchema = Joi.object({
-  userId: Joi.string().max(20).required(),
-  productId: Joi.string().max(20).required(),
-  price: Joi.number().integer().max(1000000000).required(),
 });
 
 export default router;
