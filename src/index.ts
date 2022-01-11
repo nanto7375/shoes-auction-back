@@ -7,7 +7,7 @@ import admins from "./routes/admins";
 
 import conn from "./db/maria";
 
-require("express-async-errors");
+// require("express-async-errors");
 
 const app = express();
 app.use(express.json());
