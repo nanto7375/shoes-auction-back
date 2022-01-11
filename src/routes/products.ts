@@ -10,7 +10,7 @@ const router = express.Router();
 const auctionSchema = Joi.object({
   userId: Joi.string().max(20).required(),
   productId: Joi.string().max(20).required(),
-  price: Joi.number().integer().max(1000000000).required(),
+  price: Joi.number().integer().max(99999999).required(),
 });
 
 router.get("/brandList", (req: Request, res: Response) => {
