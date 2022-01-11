@@ -182,7 +182,7 @@ router.post("/auction", auth, (req: Request, res: Response) => {
 router.post("/upload", (req: Request, res: Response) => {
   // console.log("upload 실행!!!!!!!!!");
 
-  console.log("Request : " + req);
+  console.log(req);
   console.log("File : " + req.file);
   const run = async () => {
     const bucketParams = upload(req, res, req.file);
