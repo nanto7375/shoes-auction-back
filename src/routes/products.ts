@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import auth from "../middleware/auth";
 import { upload } from "../util/upload";
 
 import conn from "../db/maria";
@@ -130,7 +131,7 @@ router.get("/auctionCount", (req: Request, res: Response) => {
   });
 });
 
-router.post("/auction", (req: Request, res: Response) => {
+router.post("/auction", auth, (req: Request, res: Response) => {
   const sql = `call sp_insert_auction('${req.body.userId}', '${req.body.productId}', ${req.body.price})`;
 
   // console.log("auction", sql);
