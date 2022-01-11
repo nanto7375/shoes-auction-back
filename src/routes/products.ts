@@ -139,9 +139,9 @@ router.get("/auctionCount", (req: Request, res: Response) => {
 });
 
 router.post("/auction", auth, (req: Request, res: Response) => {
-  console.log(req.body);
-  if (!auctionSchema.validate(req.body))
-    return res.status(400).send("유효하지 않은 값을 입력했습니다.");
+  // console.log(req.body);
+  const { error } = auctionSchema.validate(req.body);
+  if (error) return res.status(400).send(error);
 
   const sql = `call sp_insert_auction('${req.body.userId}', '${req.body.productId}', ${req.body.price})`;
 
