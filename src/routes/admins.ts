@@ -1,4 +1,6 @@
 import express, { Request, Response } from "express";
+import jwt from "jsonwebtoken";
+import config from "config";
 
 import conn from "../db/maria";
 
@@ -30,8 +32,18 @@ router.get("/productCount", (req: Request, res: Response) => {
 });
 
 router.get("/productList", (req: Request, res: Response) => {
-  const query = req.query;
+  const token = req.header("x-auth-token");
+  if (!token) return res.status(400).send("잘못된 접근입니다.");
 
+  try {
+    const decoded: any = jwt.verify(token, config.get("jwtPrivateKey"));
+    if (decoded.admin !== 1)
+      return res.status(400).send("관리자 외 접근 불가입니다.");
+  } catch (ex) {
+    res.status(400).send("인가된 토큰이 아닙니다.");
+  }
+
+  const query = req.query;
   let where = ` where 1 = 1 `;
   if (query.active) where += ` and pi_isactive = '${query.active}' `;
   if (query.searchQuery) where += ` and ${query.searchQuery} `;
