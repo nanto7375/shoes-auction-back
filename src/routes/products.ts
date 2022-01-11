@@ -182,10 +182,10 @@ router.post("/auction", auth, (req: Request, res: Response) => {
 router.post("/upload", (req: Request, res: Response) => {
   console.log("upload 실행!!!!!!!!!");
   const bucketParams = {
-    Bucket: "shoespanda/picture/shoePic",
+    Bucket: "shoespanda",
     // Specify the name of the new object. For example, 'index.html'.
     // To create a directory for the object, use '/'. For example, 'myApp/package.json'.
-    Key: "testtest",
+    Key: "picture/shoePic/testtest",
     // Content of the new object.
     Body: "testtest",
   };
