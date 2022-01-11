@@ -50,7 +50,7 @@ export const s3Client = new S3Client({ region: "ap-northeast-2" });
 export const upload = (req, res, file) => {
   return {
     Bucket: "shoespanda",
-    Key: `picture/shoePic/${Date.now()}_${file.originalname}`,
+    Key: `picture/shoePic/${Date.now()}_${file.originalname as any}`,
     Body: file,
   };
 };
