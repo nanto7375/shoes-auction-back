@@ -14,33 +14,43 @@
 
 // -----------------------------------------------
 
-import multer from "multer";
-import multerS3 from "multer-s3";
-// import { S3 } from "aws-sdk";
-//import * as S3 from " aws-sdk/clients/s3";
+// import multer from "multer";
+// import multerS3 from "multer-s3";
 
-// const S3 = require("aws-sdk");
+// // import S3 from "aws-sdk/clients/s3";
+// import { S3 } from "@aws-sdk/client-s3";
 
-import S3 from "aws-sdk/clients/s3";
+// console.log(process.memoryUsage());
 
-console.log(process.memoryUsage());
+// const s3 = new S3({
+//   accessKeyId: process.env.AWS_KEYID,
+//   secretAccessKey: process.env.AWS_PRIVATEKEY,
+//   region: "ap-northeast-2",
+// });
 
-const s3 = new S3({
-  accessKeyId: process.env.AWS_KEYID,
-  secretAccessKey: process.env.AWS_PRIVATEKEY,
-  region: "ap-northeast-2",
-});
+// export const upload = multer({
+//   storage: multerS3({
+//     s3: s3,
+//     bucket: "shoespanda",
+//     contentType: multerS3.AUTO_CONTENT_TYPE,
+//     acl: "public-read",
+//     key: (req, file, cb) => {
+//       cb(null, `picture/shoePic/${Date.now()}_${file.originalname}`);
+//     },
+//   }),
+// }).single("file");
 
-export const upload = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: "shoespanda",
-    contentType: multerS3.AUTO_CONTENT_TYPE,
-    acl: "public-read",
-    key: (req, file, cb) => {
-      cb(null, `picture/shoePic/${Date.now()}_${file.originalname}`);
-    },
-  }),
-}).single("file");
+// console.log(process.memoryUsage());
 
-console.log(process.memoryUsage());
+// --------------------------------------------------
+
+import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+
+export const s3Client = new S3Client({ region: "ap-northeast-2" });
+export const upload = (req, res, file) => {
+  return {
+    Bucket: "shoespanda",
+    Key: `picture/shoePic/${Date.now()}_${file.originalname}`,
+    Body: file,
+  };
+};

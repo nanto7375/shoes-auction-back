@@ -3,6 +3,9 @@ import Joi from "joi";
 import auth from "../middleware/auth";
 import { upload } from "../util/upload";
 
+import { s3Client } from "../util/upload";
+import { PutObjectCommand } from "@aws-sdk/client-s3";
+
 import conn from "../db/maria";
 
 const router = express.Router();
@@ -158,22 +161,55 @@ router.post("/auction", auth, (req: Request, res: Response) => {
   });
 });
 
+// router.post("/upload", (req: Request, res: Response) => {
+//   // console.log("upload 실행!!!!!!!!!");
+
+//   upload(req, res, (error) => {
+//     if (error) {
+//       // console.log("upload 오류 발생!!!!!!!!");
+//       console.log(error);
+//       res.status(500).send("사진 업로드에 실패했습니다.");
+//     } else {
+//       // console.log("upload 성공!!!!!!!!!!");
+//       const file: any = req.file as Express.Multer.File;
+//       console.log(file.key);
+//       const filename = file.key.substring(file.key.lastIndexOf("/") + 1);
+//       res.json({ success: true, fileName: filename });
+//     }
+//   });
+// });
+
 router.post("/upload", (req: Request, res: Response) => {
   // console.log("upload 실행!!!!!!!!!");
 
-  upload(req, res, (error) => {
-    if (error) {
-      // console.log("upload 오류 발생!!!!!!!!");
-      console.log(error);
-      res.status(500).send("사진 업로드에 실패했습니다.");
-    } else {
-      // console.log("upload 성공!!!!!!!!!!");
-      const file: any = req.file as Express.Multer.File;
-      console.log(file.key);
-      const filename = file.key.substring(file.key.lastIndexOf("/") + 1);
-      res.json({ success: true, fileName: filename });
+  const run = async () => {
+    const bucketParams = upload(req, res, req.file);
+    try {
+      const data = await s3Client.send(new PutObjectCommand(bucketParams));
+      console.log(
+        "Successfully uploaded object: " +
+          bucketParams.Bucket +
+          "/" +
+          bucketParams.Key
+      );
+
+      return data; // For unit tests.
+    } catch (err) {
+      console.log("Error", err);
     }
-  });
+  };
+
+  const data = run();
+  if (!data) {
+    // console.log("upload 오류 발생!!!!!!!!");
+    res.status(500).send("사진 업로드에 실패했습니다.");
+  } else {
+    // console.log("upload 성공!!!!!!!!!!");
+    const file: any = req.file as Express.Multer.File;
+    console.log(file.key);
+    const filename = file.key.substring(file.key.lastIndexOf("/") + 1);
+    res.json({ success: true, fileName: filename });
+  }
 });
 
 router.post("/register", (req: Request, res: Response) => {
