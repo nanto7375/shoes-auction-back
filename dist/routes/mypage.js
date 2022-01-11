@@ -4,9 +4,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const auth_1 = __importDefault(require("../middleware/auth"));
 const maria_1 = __importDefault(require("../db/maria"));
 const router = express_1.default.Router();
-router.get("/recentProductList", (req, res) => {
+router.get("/recentProductList", auth_1.default, (req, res) => {
     const sql = `select a.pi_id, a.mi_id, pi_name, bi_name, pi_size, pi_quality, pi_img, pi_enddate, pi_isactive, ifnull(pi_maxprice, pi_startprice) pi_price, max(pl_index) new_index
     from t_product_info a inner join t_brand_info b on a.bi_id = b.bi_id inner join t_product_log c on a.pi_id = c.pi_id
     left outer join (select pi_id, max(pa_price) pi_maxprice from t_product_auction group by pi_id) d on a.pi_id = d.pi_id
@@ -32,7 +33,7 @@ router.get("/buyAuctionCount", (req, res) => {
         where += ` and ${query.searchQuery} `;
     let sql = `select count(distinct c.pi_id) as count
   from t_product_info a, t_brand_info b, t_product_auction c ${where} and a.bi_id = b.bi_id and a.pi_id = c.pi_id and c.mi_id = '${query.userId}'`;
-    console.log("buyAuctionCount", sql);
+    // console.log("buyAuctionCount", sql);
     maria_1.default.query(sql, (error, result) => {
         if (!error) {
             if (result[0])
@@ -46,9 +47,9 @@ router.get("/buyAuctionCount", (req, res) => {
         }
     });
 });
-router.get("/buyAuctionList", (req, res) => {
+router.get("/buyAuctionList", auth_1.default, (req, res) => {
     const query = req.query;
-    console.log(query);
+    // console.log(query);
     let where = ` where ${query.active}`;
     if (query.searchQuery)
         where += ` and ${query.searchQuery} `;
@@ -60,7 +61,7 @@ router.get("/buyAuctionList", (req, res) => {
     from t_product_info a inner join t_brand_info b on a.bi_id = b.bi_id inner join t_product_auction c on a.pi_id = c.pi_id
     inner join (select pi_id, max(pa_price) pi_maxprice from t_product_auction group by pi_id) d on a.pi_id = d.pi_id
     ${where} and c.mi_id = '${query.userId}' group by c.pi_id  ${orderby} ${limit}`;
-    console.log("buyAuctionList", sql);
+    // console.log("buyAuctionList", sql);
     maria_1.default.query(sql, (error, result) => {
         if (!error) {
             if (result)
@@ -95,7 +96,7 @@ router.get("/sellAuctionCount", (req, res) => {
         }
     });
 });
-router.get("/sellAuctionList", (req, res) => {
+router.get("/sellAuctionList", auth_1.default, (req, res) => {
     const query = req.query;
     let where = ` where ${query.active}`;
     let orderby = ` order by ${query.sortColumn}`;

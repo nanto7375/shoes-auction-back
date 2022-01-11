@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const auth_1 = __importDefault(require("../middleware/auth"));
 const upload_1 = require("../util/upload");
 const maria_1 = __importDefault(require("../db/maria"));
 const router = express_1.default.Router();
@@ -25,6 +26,7 @@ router.get("/brandList", (req, res) => {
 });
 router.get("/productList", (req, res) => {
     const query = req.query;
+    // console.log("hi productList api");
     let where = ` where ${query.active}`;
     if (query.searchQuery)
         where += ` and pi_name like '%${query.searchQuery}%' `;
@@ -126,7 +128,7 @@ router.get("/auctionCount", (req, res) => {
         }
     });
 });
-router.post("/auction", (req, res) => {
+router.post("/auction", auth_1.default, (req, res) => {
     const sql = `call sp_insert_auction('${req.body.userId}', '${req.body.productId}', ${req.body.price})`;
     // console.log("auction", sql);
     maria_1.default.query(sql, function (error, result) {
@@ -143,21 +145,32 @@ router.post("/auction", (req, res) => {
     });
 });
 router.post("/upload", (req, res) => {
+    // console.log("upload 실행!!!!!!!!!");
     (0, upload_1.upload)(req, res, (error) => {
         if (error) {
-            res.json({ seuccess: 0 });
+            // console.log("upload 오류 발생!!!!!!!!");
+            console.log(error);
+            res.status(500).send("사진 업로드에 실패했습니다.");
         }
-        else
-            res.json({ success: 1 });
+        else {
+            // console.log("upload 성공!!!!!!!!!!");
+            const file = req.file;
+            console.log(file.key);
+            const filename = file.key.substring(file.key.lastIndexOf("/") + 1);
+            res.json({ success: true, fileName: filename });
+        }
     });
 });
 router.post("/register", (req, res) => {
     const body = req.body;
     const sql = `call sp_insert_register('${body.productName}', '${body.userId}', '${body.brand}', '${body.size}', '${body.image}', ${body.price}, ${body.period}, '${body.address}', '${body.bank}', '${body.account}')`;
-    // console.log("register", sql);
+    // console.log(
+    //   `register의 sql문은 :\n ${sql}\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!`
+    // );
     maria_1.default.query(sql, (error, result) => {
         if (!error) {
-            if (result.affectedRows > 0)
+            // console.log(result);
+            if (result.affectedRows > 2)
                 res.send();
             else
                 res.status(400).send("상품 등록에 실패했습니다.");
@@ -197,22 +210,6 @@ router.get("/address", (req, res) => {
         }
         else {
             console.log("prodcts/get/address");
-            throw error;
-        }
-    });
-});
-router.post("/productDateCheck", (req, res) => {
-    const sql = "call sp_auction_end()";
-    maria_1.default.query(sql, (error, result) => {
-        if (!error) {
-            // console.log(result);
-            if (result.protocol41)
-                res.send();
-            else
-                res.status(400).send("상품 마감 날짜 체크에 실패했습니다.");
-        }
-        else {
-            console.log("products/post/register error");
             throw error;
         }
     });

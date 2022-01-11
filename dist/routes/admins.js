@@ -4,6 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const config_1 = __importDefault(require("config"));
 const maria_1 = __importDefault(require("../db/maria"));
 const router = express_1.default.Router();
 router.get("/productCount", (req, res) => {
@@ -33,6 +35,17 @@ router.get("/productCount", (req, res) => {
     });
 });
 router.get("/productList", (req, res) => {
+    const token = req.header("x-auth-token");
+    if (!token)
+        return res.status(400).send("잘못된 접근입니다.");
+    try {
+        const decoded = jsonwebtoken_1.default.verify(token, config_1.default.get("jwtPrivateKey"));
+        if (decoded.admin !== 1)
+            return res.status(400).send("관리자 외 접근 불가입니다.");
+    }
+    catch (ex) {
+        res.status(400).send("인가된 토큰이 아닙니다.");
+    }
     const query = req.query;
     let where = ` where 1 = 1 `;
     if (query.active)
@@ -68,7 +81,7 @@ router.post("/newQuality", (req, res) => {
     // console.log(sql);
     maria_1.default.query(sql, (error, result) => {
         if (!error) {
-            console.log(result);
+            // console.log(result);
             if (result.changedRows > 0)
                 res.send();
             else
@@ -84,7 +97,7 @@ router.post("/newActive", (req, res) => {
     let sql = `update t_product_info set pi_isactive = '${req.body.active}' where pi_id = '${req.body.productId}'`;
     // console.log(sql);
     maria_1.default.query(sql, (error, result) => {
-        console.log(error, result);
+        // console.log(error, result);
         if (!error) {
             if (result.changedRows > 0)
                 res.send();
