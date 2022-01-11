@@ -4,7 +4,7 @@ import config from "config";
 export default function (req, res, next) {
   // console.log(req.header("x-auth-token"));
   const token = req.header("x-auth-token");
-  if (!token) return res.status(400).send("잘못된 접근입니다.");
+  if (!token) return res.status(401).send("잘못된 접근입니다.");
 
   try {
     const decoded: any = jwt.verify(token, config.get("jwtPrivateKey"));
