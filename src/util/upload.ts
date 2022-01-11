@@ -22,6 +22,9 @@ import multerS3 from "multer-s3";
 // const S3 = require("aws-sdk");
 
 import S3 from "aws-sdk/clients/s3";
+
+console.log(process.memoryUsage());
+
 const s3 = new S3({
   accessKeyId: process.env.AWS_KEYID,
   secretAccessKey: process.env.AWS_PRIVATEKEY,
@@ -39,3 +42,5 @@ export const upload = multer({
     },
   }),
 }).single("file");
+
+console.log(process.memoryUsage());
