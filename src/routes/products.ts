@@ -191,15 +191,18 @@ router.post("/upload", (req: Request, res: Response) => {
     } else {
       console.log(req.body);
       console.log(req.file);
+      console.log(req.file.buffer);
 
+      console.log("경계");
       const file: any = req.file as Express.Multer.File;
+      console.log(file);
       const filename: string = file.filename;
       // s3에 업로드 제대로 된다. front에서 파일만 가져 와서 적용하면 된다.
       const s3Client = new S3Client({ region: "ap-northeast-2" });
       const bucketParams = {
         Bucket: "shoespanda",
         Key: `picture/shoePic/${filename}`,
-        Body: file,
+        Body: "testsetst",
       };
 
       console.log("여기 오나?");
