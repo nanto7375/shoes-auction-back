@@ -183,12 +183,13 @@ import formidable from "formidable";
 
 router.post("/upload", upload.single("file"), (req: Request, res: Response) => {
   console.log(req.file, req.body);
-  console.log(req.file.filename);
+  const f = req.file as Express.Multer.File;
+  console.log(f);
 
   const s3Client = new S3Client({ region: "ap-northeast-2" });
       const bucketParams = {
         Bucket: "shoespanda",
-        Key: `picture/shoePic/${req.file.filename}`,
+        Key: `picture/shoePic/sleijfslie`,
         Body: "testsetst",
       };
 
