@@ -178,12 +178,14 @@ router.post("/auction", auth, (req: Request, res: Response) => {
 // });
 
 /* aws-sdk v3 업로드 */
-import { s3Client } from "../util/upload";
-import { PutObjectCommand } from "@aws-sdk/client-s3";
+import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
 router.post("/upload", (req: Request, res: Response) => {
   console.log("upload 실행!!!!!!!!!");
   console.log(req.body);
+
+  // s3에 업로드 제대로 된다. front에서 파일만 가져 와서 적용하면 된다.
+  const s3Client = new S3Client({ region: "ap-northeast-2" });
   const bucketParams = {
     Bucket: "shoespanda",
     Key: `picture/shoePic/${Date.now()}_testtest`,
@@ -205,6 +207,7 @@ router.post("/upload", (req: Request, res: Response) => {
     }
   };
   run();
+  //
 });
 
 router.post("/register", (req: Request, res: Response) => {

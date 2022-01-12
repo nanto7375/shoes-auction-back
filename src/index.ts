@@ -11,7 +11,7 @@ import conn from "./db/maria";
 
 const app = express();
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+// app.use(express.urlencoded({ extended: false }));
 
 app.use(
   cors({
@@ -25,10 +25,10 @@ app.use(
   })
 );
 
-app.use((req: Request, res: Response, next: NextFunction) => {
-  console.log(JSON.stringify(req.url));
-  next();
-});
+// app.use((req: Request, res: Response, next: NextFunction) => {
+//   console.log(JSON.stringify(req.url));
+//   next();
+// });
 
 app.get("/", (req: Request, res: Response) => {
   res.send("shoes auction backend");
