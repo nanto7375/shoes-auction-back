@@ -49,7 +49,7 @@ export const s3Client = new S3Client({ region: "ap-northeast-2" });
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "picture/shoePic/");
+    cb(null, "./public/uploads");
   },
   filename: function (req, file, cb) {
     cb(null, `${Date.now()}_${file.originalname}`);
