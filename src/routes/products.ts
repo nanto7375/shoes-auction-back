@@ -199,7 +199,7 @@ router.post("/upload", (req: Request, res: Response) => {
       const bucketParams = {
         Bucket: "shoespanda",
         Key: `picture/shoePic/${filename}`,
-        Body: req.file as any,
+        Body: file,
       };
 
       console.log("여기 오나?");
@@ -219,7 +219,7 @@ router.post("/upload", (req: Request, res: Response) => {
           console.log("Error", err);
         }
       };
-      run();
+      console.log(run());
       //
     }
   });
