@@ -191,7 +191,7 @@ router.post("/upload", upload.single("file"), (req: Request, res: Response) => {
   const bucketParams = {
     Bucket: "shoespanda",
     Key: `picture/shoePic/${f.filename}`,
-    Body: f.path,
+    Body: `picture/shoePic/${f.filename}`,
   };
 
   console.log("여기 오나?");
