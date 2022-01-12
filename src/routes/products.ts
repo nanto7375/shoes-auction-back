@@ -159,61 +159,61 @@ router.post("/auction", auth, (req: Request, res: Response) => {
 });
 
 /* 기존 업로드 */
-router.post("/upload", (req: Request, res: Response) => {
-  // console.log("upload 실행!!!!!!!!!");
+// router.post("/upload", (req: Request, res: Response) => {
+//   // console.log("upload 실행!!!!!!!!!");
 
-  upload(req, res, (error) => {
-    if (error) {
-      // console.log("upload 오류 발생!!!!!!!!");
-      console.log(error);
-      res.status(500).send("사진 업로드에 실패했습니다.");
-    } else {
-      // console.log("upload 성공!!!!!!!!!!");
-      const file: any = req.file as Express.Multer.File;
-      console.log(file.key);
-      const filename = file.key.substring(file.key.lastIndexOf("/") + 1);
-      res.json({ success: true, fileName: filename });
-    }
-  });
-});
+//   upload(req, res, (error) => {
+//     if (error) {
+//       // console.log("upload 오류 발생!!!!!!!!");
+//       console.log(error);
+//       res.status(500).send("사진 업로드에 실패했습니다.");
+//     } else {
+//       // console.log("upload 성공!!!!!!!!!!");
+//       const file: any = req.file as Express.Multer.File;
+//       console.log(file.key);
+//       const filename = file.key.substring(file.key.lastIndexOf("/") + 1);
+//       res.json({ success: true, fileName: filename });
+//     }
+//   });
+// });
 
 /* aws-sdk v3 업로드 */
 /* 현재 bucketParmas body에 file 넣는 거만 해결하면 된다 */
-// import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
-// import formidable from "formidable";
+import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import multipart from "parse-multipart";
 
-// router.post("/upload", upload.single("file"), (req: Request, res: Response) => {
-//   console.log(req.file, req.body);
-//   const f: any = req.file;
-//   console.log(f);
+router.post("/upload", upload.single("file"), (req: Request, res: Response) => {
+  console.log(req.file, req.body);
+  const f: any = req.file;
+  console.log(f);
 
-//   const s3Client = new S3Client({ region: "ap-northeast-2" });
-//   const bucketParams = {
-//     Bucket: "shoespanda",
-//     Key: `picture/shoePic/${f.filename}`,
-//     Body: f,
-//   };
+  // const s3Client = new S3Client({ region: "ap-northeast-2" });
+  // const bucketParams = {
+  //   Bucket: "shoespanda",
+  //   Key: `picture/shoePic/${f.filename}`,
+  //   Body: f,
+  // };
 
-//   console.log("여기 오나?");
+  // console.log("여기 오나?");
 
-//   const run = async () => {
-//     try {
-//       console.log("여기는 오나?");
-//       const data = await s3Client.send(new PutObjectCommand(bucketParams));
-//       console.log(
-//         "Successfully uploaded object: " +
-//           bucketParams.Bucket +
-//           "/" +
-//           bucketParams.Key
-//       );
-//       return data; // For unit tests.
-//     } catch (err) {
-//       console.log("Error", err);
-//     }
-//   };
+  // const run = async () => {
+  //   try {
+  //     console.log("여기는 오나?");
+  //     const data = await s3Client.send(new PutObjectCommand(bucketParams));
+  //     console.log(
+  //       "Successfully uploaded object: " +
+  //         bucketParams.Bucket +
+  //         "/" +
+  //         bucketParams.Key
+  //     );
+  //     return data; // For unit tests.
+  //   } catch (err) {
+  //     console.log("Error", err);
+  //   }
+  // };
 
-//   // console.log(run());
-// });
+  // console.log(run());
+});
 
 router.post("/register", (req: Request, res: Response) => {
   const body = req.body;
