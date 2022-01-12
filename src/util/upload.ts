@@ -47,21 +47,15 @@ import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
 export const s3Client = new S3Client({ region: "ap-northeast-2" });
 
-// export const storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, "picture/shoePic/");
-//   },
-//   filename: function (req, file, cb) {
-//     cb(null, path.basename(file.originalname, ext) + "-" + Date.now() + ext);
-//   },
-// });
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "picture/shoePic/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, `${Date.now()}_${file.originalname}`);
+  },
+});
 
-export const upload = (req, res, file) => {
-  return {
-    Bucket: "shoespanda",
-    Key: `picture/shoePic/${Date.now()}_${file.originalname as any}`,
-    Body: file,
-  };
-};
+export const upload = multer({ storage }).single("file");
 
 // console.log(process.memoryUsage());

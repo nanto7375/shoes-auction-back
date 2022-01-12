@@ -185,30 +185,33 @@ router.post("/upload", (req: Request, res: Response) => {
   console.log(req.body);
   console.log(req.file);
 
-  // s3에 업로드 제대로 된다. front에서 파일만 가져 와서 적용하면 된다.
-  const s3Client = new S3Client({ region: "ap-northeast-2" });
-  const bucketParams = {
-    Bucket: "shoespanda",
-    Key: `picture/shoePic/${Date.now()}_testtest`,
-    Body: "testtest",
-  };
+  upload(req, res, (error) => {
+    const file: any = req.file as Express.Multer.File;
+    // s3에 업로드 제대로 된다. front에서 파일만 가져 와서 적용하면 된다.
+    const s3Client = new S3Client({ region: "ap-northeast-2" });
+    const bucketParams = {
+      Bucket: "shoespanda",
+      Key: `picture/shoePic/${Date.now()}_testtest`,
+      Body: "testtest",
+    };
 
-  const run = async () => {
-    try {
-      const data = await s3Client.send(new PutObjectCommand(bucketParams));
-      console.log(
-        "Successfully uploaded object: " +
-          bucketParams.Bucket +
-          "/" +
-          bucketParams.Key
-      );
-      return data; // For unit tests.
-    } catch (err) {
-      console.log("Error", err);
-    }
-  };
-  run();
-  //
+    const run = async () => {
+      try {
+        const data = await s3Client.send(new PutObjectCommand(bucketParams));
+        console.log(
+          "Successfully uploaded object: " +
+            bucketParams.Bucket +
+            "/" +
+            bucketParams.Key
+        );
+        return data; // For unit tests.
+      } catch (err) {
+        console.log("Error", err);
+      }
+    };
+    run();
+    //
+  });
 });
 
 router.post("/register", (req: Request, res: Response) => {
