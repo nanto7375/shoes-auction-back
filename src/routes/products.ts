@@ -181,8 +181,38 @@ router.post("/auction", auth, (req: Request, res: Response) => {
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import formidable from "formidable";
 
-router.post("/upload", upload, (req: Request, res: Response) => {
+router.post("/upload", upload.single("file"), (req: Request, res: Response) => {
   console.log(req.file, req.body);
+  console.log(req.file.filename);
+
+  const s3Client = new S3Client({ region: "ap-northeast-2" });
+      const bucketParams = {
+        Bucket: "shoespanda",
+        Key: `picture/shoePic/${req.file.filename}`,
+        Body: "testsetst",
+      };
+
+      console.log("여기 오나?");
+
+      const run = async () => {
+        try {
+          console.log("여기는 오나?");
+          const data = await s3Client.send(new PutObjectCommand(bucketParams));
+          console.log(
+            "Successfully uploaded object: " +
+              bucketParams.Bucket +
+              "/" +
+              bucketParams.Key
+          );
+          return data; // For unit tests.
+        } catch (err) {
+          console.log("Error", err);
+        }
+      };
+
+      // console.log(run());
+      //
+    }
 
   // upload(req, res, (error) => {
   //   if (error) {
