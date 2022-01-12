@@ -183,6 +183,7 @@ import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 router.post("/upload", (req: Request, res: Response) => {
   console.log("upload 실행!!!!!!!!!");
   console.log(req.body);
+  console.log(req.file);
 
   // s3에 업로드 제대로 된다. front에서 파일만 가져 와서 적용하면 된다.
   const s3Client = new S3Client({ region: "ap-northeast-2" });

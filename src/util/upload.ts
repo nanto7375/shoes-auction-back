@@ -42,9 +42,19 @@
 
 /* s3 업로드 aws-sdk v3 */
 
+import multer from "multer";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
 export const s3Client = new S3Client({ region: "ap-northeast-2" });
+
+// export const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, "picture/shoePic/");
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, path.basename(file.originalname, ext) + "-" + Date.now() + ext);
+//   },
+// });
 
 export const upload = (req, res, file) => {
   return {
