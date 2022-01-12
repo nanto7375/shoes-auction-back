@@ -43,25 +43,25 @@ app.use("/api/products/productDateCheck", (req: Request, res: Response) => {
   res.send("ok");
 });
 
-setInterval(() => {
-  try {
-    const sql = "call sp_auction_end()";
-    conn.query(sql);
-    // console.log("dateCheck 실행");
-  } catch (error) {
-    console.log(error);
-  }
-}, 60000);
+// setInterval(() => {
+//   try {
+//     const sql = "call sp_auction_end()";
+//     conn.query(sql);
+//     // console.log("dateCheck 실행");
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }, 60000);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server listening on port ${port}...`);
 });
 
-app.use((req: Request, res: Response, next: NextFunction) => {
-  console.log("not found");
-  throw new Error("NotFoundRoute");
-});
+// app.use((req: Request, res: Response, next: NextFunction) => {
+//   console.log("not found");
+//   throw new Error("NotFoundRoute");
+// });
 
 app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
   console.log(error.name);
