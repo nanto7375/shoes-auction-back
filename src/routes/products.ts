@@ -181,13 +181,8 @@ router.post("/auction", auth, (req: Request, res: Response) => {
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import formidable from "formidable";
 
-router.post("/upload", (req: Request, res: Response) => {
-  console.log("upload 실행!!!!!!!!!");
-
-  const form = new formidable.IncomingForm();
-  form.parse(req, (error, files) => {
-    console.log(files);
-  });
+router.post("/upload", upload, (req: Request, res: Response) => {
+  console.log(req.file, req.body);
 
   // upload(req, res, (error) => {
   //   if (error) {
