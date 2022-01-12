@@ -202,6 +202,8 @@ router.post("/upload", (req: Request, res: Response) => {
         Body: file,
       };
 
+      console.log("여기 오나?");
+
       const run = async () => {
         try {
           const data = await s3Client.send(new PutObjectCommand(bucketParams));
