@@ -199,14 +199,14 @@ router.post("/upload", (req: Request, res: Response) => {
       const bucketParams = {
         Bucket: "shoespanda",
         Key: `picture/shoePic/${filename}`,
-        Body: file,
+        Body: "filefile",
       };
 
       console.log("여기 오나?");
 
       const run = async () => {
         try {
-          console.log("여기 오나?");
+          console.log("여기는 오나?");
           const data = await s3Client.send(new PutObjectCommand(bucketParams));
           console.log(
             "Successfully uploaded object: " +
