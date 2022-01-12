@@ -197,8 +197,8 @@ router.post("/upload", (req: Request, res: Response) => {
       const s3Client = new S3Client({ region: "ap-northeast-2" });
       const bucketParams = {
         Bucket: "shoespanda",
-        Key: `picture/shoePic/${Date.now()}_testtest`,
-        Body: "testtest",
+        Key: `picture/shoePic/${file.filename}`,
+        Body: file,
       };
 
       const run = async () => {
