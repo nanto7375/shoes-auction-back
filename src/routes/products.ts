@@ -183,14 +183,14 @@ import formidable from "formidable";
 
 router.post("/upload", upload.single("file"), (req: Request, res: Response) => {
   console.log(req.file, req.body);
-  const f = req.file as Express.Multer.File;
+  const f: any = req.file;
   console.log(f);
 
   const s3Client = new S3Client({ region: "ap-northeast-2" });
   const bucketParams = {
     Bucket: "shoespanda",
-    Key: `picture/shoePic/sleijfslie`,
-    Body: "testsetst",
+    Key: `picture/shoePic/${f.filename}`,
+    Body: f,
   };
 
   console.log("여기 오나?");
@@ -212,52 +212,6 @@ router.post("/upload", upload.single("file"), (req: Request, res: Response) => {
   };
 
   // console.log(run());
-  //
-
-  // upload(req, res, (error) => {
-  //   if (error) {
-  //     // console.log("upload 오류 발생!!!!!!!!");
-  //     console.log(error);
-  //     res.status(500).send("사진 업로드에 실패했습니다.");
-  //   } else {
-  //     console.log(req.body);
-  //     console.log(req.file);
-  //     console.log(req.file.buffer);
-
-  //     console.log("경계");
-  //     const file: any = req.file as Express.Multer.File;
-  //     console.log(file);
-  //     console.log(file.buffer);
-  //     const filename: string = file.filename;
-  //     // s3에 업로드 제대로 된다. front에서 파일만 가져 와서 적용하면 된다.
-  //     const s3Client = new S3Client({ region: "ap-northeast-2" });
-  //     const bucketParams = {
-  //       Bucket: "shoespanda",
-  //       Key: `picture/shoePic/${filename}`,
-  //       Body: "testsetst",
-  //     };
-
-  //     console.log("여기 오나?");
-
-  //     const run = async () => {
-  //       try {
-  //         console.log("여기는 오나?");
-  //         const data = await s3Client.send(new PutObjectCommand(bucketParams));
-  //         console.log(
-  //           "Successfully uploaded object: " +
-  //             bucketParams.Bucket +
-  //             "/" +
-  //             bucketParams.Key
-  //         );
-  //         return data; // For unit tests.
-  //       } catch (err) {
-  //         console.log("Error", err);
-  //       }
-  //     };
-  //     console.log(run());
-  //     //
-  //   }
-  // });
 });
 
 router.post("/register", (req: Request, res: Response) => {
