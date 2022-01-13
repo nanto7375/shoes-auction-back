@@ -184,16 +184,16 @@ import fs from "fs";
 import multipart from "parse-multipart";
 
 router.post("/upload", upload.single("file"), (req: Request, res: Response) => {
-  console.log(req.file, req.body);
-  const file = fs.readFileSync(req.file.path);
-  console.log(file);
+  console.log(req.file.buffer, req.body);
+  // const file = fs.readFileSync(req.file.path);
+  // console.log(file);
 
   // s3;
   const s3Client = new S3Client({ region: "ap-northeast-2" });
   const bucketParams = {
     Bucket: "shoespanda",
     Key: `picture/shoePic/${req.file.filename}`,
-    Body: file,
+    Body: req.file.buffer,
   };
 
   console.log("여기 오나?");
