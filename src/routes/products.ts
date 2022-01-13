@@ -184,10 +184,8 @@ router.post("/upload", (req: Request, res: Response) => {
   // console.log(req.body);
   // console.log(req.body);
   const encoded = req.body.image;
-  const decoded = Buffer.from(
-    encoded.substring(encoded.indexOf("," + 2)),
-    "base64"
-  );
+  const modifiedEncoded = encoded.substring(22);
+  const decoded = Buffer.from(modifiedEncoded, "base64");
   // console.log(decoded);
   const filename = `${Date.now()}_${req.body.name}`;
 
