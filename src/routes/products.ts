@@ -181,7 +181,6 @@ router.post("/auction", auth, (req: Request, res: Response) => {
 /* 현재 bucketParmas body에 file 넣는 거만 해결하면 된다 */
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import fs from "fs";
-import multipart from "parse-multipart";
 
 router.post("/upload", upload.single("file"), (req: Request, res: Response) => {
   console.log(req.file, req.body);
@@ -208,13 +207,20 @@ router.post("/upload", upload.single("file"), (req: Request, res: Response) => {
           "/" +
           bucketParams.Key
       );
-      return data; // For unit tests.
+      return data;
     } catch (err) {
-      console.log("Error", err);
+      throw err;
     }
   };
 
-  console.log(run());
+  try {
+    run();
+    console.log("upload 성공!!!!!!!!!!");
+    res.json({ success: true, fileName: req.file.filename });
+  } catch (error) {
+    console.log("upload 오류 발생!!!!!!!!");
+    res.status(500).send("사진 업로드에 실패했습니다.");
+  }
 });
 
 router.post("/register", (req: Request, res: Response) => {

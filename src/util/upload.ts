@@ -43,12 +43,10 @@
 import multer from "multer";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
-export const s3Client = new S3Client({ region: "ap-northeast-2" });
-
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    console.log("여기는 upload");
-    console.log(file);
+    // console.log("여기는 upload");
+    // console.log(file);
     cb(null, "./public/uploads");
   },
   filename: function (req, file, cb) {
