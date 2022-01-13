@@ -183,8 +183,9 @@ import fs from "fs";
 
 // upload.single("file"),
 router.post("/upload", (req: Request, res: Response) => {
-  console.log(req.file, req.body);
-  console.log(req.body.image);
+  // console.log(req.file);
+  console.log(req.body);
+  // console.log(req.body.image);
   // const file = fs.readFileSync(req.file.path);
   // console.log(file);
 
