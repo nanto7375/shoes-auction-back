@@ -158,26 +158,6 @@ router.post("/auction", auth, (req: Request, res: Response) => {
   });
 });
 
-/* 기존 업로드. s3뿐만 아니라 서버에도 저장된다. 실패작 */
-// import { upload } from "../util/upload";
-// router.post("/upload", (req: Request, res: Response) => {
-//   // console.log("upload 실행!!!!!!!!!");
-
-//   upload(req, res, (error) => {
-//     if (error) {
-//       // console.log("upload 오류 발생!!!!!!!!");
-//       console.log(error);
-//       res.status(500).send("사진 업로드에 실패했습니다.");
-//     } else {
-//       // console.log("upload 성공!!!!!!!!!!");
-//       const file: any = req.file as Express.Multer.File;
-//       console.log(file.key);
-//       const filename = file.key.substring(file.key.lastIndexOf("/") + 1);
-//       res.json({ success: true, fileName: filename });
-//     }
-//   });
-// });
-
 /* aws-sdk v3 업로드 */
 router.post("/register", auth, (req: Request, res: Response) => {
   const encoded = req.body.image;
@@ -190,12 +170,12 @@ router.post("/register", auth, (req: Request, res: Response) => {
     const data = s3Upload("shoespanda", `picture/shoePic/${filename}`, decoded);
     if (data) {
       console.log("이미지 upload 성공!!!");
-      // res.json({ success: true, fileName: filename });
+
       const body = req.body;
       const sql = `call sp_insert_register('${body.productName}', '${body.userId}', '${body.brand}', '${body.size}', '${filename}', ${body.price}, ${body.period}, '${body.address}', '${body.bank}', '${body.account}')`;
 
       // console.log(
-      //   `register의 sql문은 :\n ${sql}\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!`
+      //   `register의 sql문은 :\n ${sql}\n!!!`
       // );
 
       conn.query(sql, (error, result) => {
@@ -213,26 +193,6 @@ router.post("/register", auth, (req: Request, res: Response) => {
     console.log("upload 오류 발생!!!!!!!!");
     res.status(500).send("사진 업로드에 실패했습니다.");
   }
-});
-
-router.post("/register", (req: Request, res: Response) => {
-  const body = req.body;
-  const sql = `call sp_insert_register('${body.productName}', '${body.userId}', '${body.brand}', '${body.size}', '${body.image}', ${body.price}, ${body.period}, '${body.address}', '${body.bank}', '${body.account}')`;
-
-  // console.log(
-  //   `register의 sql문은 :\n ${sql}\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!`
-  // );
-
-  conn.query(sql, (error, result) => {
-    if (!error) {
-      // console.log(result);
-      if (result.affectedRows > 2) res.send();
-      else res.status(400).send("상품 등록에 실패했습니다.");
-    } else {
-      console.log("products/post/register error");
-      throw error;
-    }
-  });
 });
 
 router.post("/productLog", (req: Request, res: Response) => {
