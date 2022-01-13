@@ -159,49 +159,50 @@ router.post("/auction", auth, (req: Request, res: Response) => {
 });
 
 /* 기존 업로드 */
-router.post("/upload", (req: Request, res: Response) => {
-  // console.log("upload 실행!!!!!!!!!");
+// router.post("/upload", (req: Request, res: Response) => {
+//   // console.log("upload 실행!!!!!!!!!");
 
-  upload(req, res, (error) => {
-    if (error) {
-      // console.log("upload 오류 발생!!!!!!!!");
-      console.log(error);
-      res.status(500).send("사진 업로드에 실패했습니다.");
-    } else {
-      // console.log("upload 성공!!!!!!!!!!");
-      const file: any = req.file as Express.Multer.File;
-      console.log(file.key);
-      const filename = file.key.substring(file.key.lastIndexOf("/") + 1);
-      res.json({ success: true, fileName: filename });
-    }
-  });
-});
+//   upload(req, res, (error) => {
+//     if (error) {
+//       // console.log("upload 오류 발생!!!!!!!!");
+//       console.log(error);
+//       res.status(500).send("사진 업로드에 실패했습니다.");
+//     } else {
+//       // console.log("upload 성공!!!!!!!!!!");
+//       const file: any = req.file as Express.Multer.File;
+//       console.log(file.key);
+//       const filename = file.key.substring(file.key.lastIndexOf("/") + 1);
+//       res.json({ success: true, fileName: filename });
+//     }
+//   });
+// });
 
 /* aws-sdk v3 업로드 */
-// import { s3Upload } from "../util/upload";
-// import fs from "fs";
+import { s3Upload } from "../util/upload";
+import fs from "fs";
 
-// router.post("/upload", upload.single("file"), (req: Request, res: Response) => {
-//   console.log(req.file, req.body);
-//   const file = fs.readFileSync(req.file.path);
-//   console.log(file);
+// upload.single("file"),
+router.post("/upload", (req: Request, res: Response) => {
+  console.log(req.file, req.body);
+  // const file = fs.readFileSync(req.file.path);
+  // console.log(file);
 
-//   try {
-//     // s3Upload(bucket, key, body)
-//     const data = s3Upload(
-//       "shoespanda",
-//       `picture/shoePic/${req.file.filename}`,
-//       file
-//     );
-//     if (data) {
-//       console.log("upload 성공!!!!!!!!!!");
-//       res.json({ success: true, fileName: req.file.filename });
-//     }
-//   } catch (error) {
-//     console.log("upload 오류 발생!!!!!!!!");
-//     res.status(500).send("사진 업로드에 실패했습니다.");
-//   }
-// });
+  // try {
+  //   // s3Upload(bucket, key, body)
+  //   const data = s3Upload(
+  //     "shoespanda",
+  //     `picture/shoePic/${req.file.filename}`,
+  //     file
+  //   );
+  //   if (data) {
+  //     console.log("upload 성공!!!!!!!!!!");
+  //     res.json({ success: true, fileName: req.file.filename });
+  //   }
+  // } catch (error) {
+  //   console.log("upload 오류 발생!!!!!!!!");
+  //   res.status(500).send("사진 업로드에 실패했습니다.");
+  // }
+});
 
 router.post("/register", (req: Request, res: Response) => {
   const body = req.body;
