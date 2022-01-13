@@ -184,10 +184,11 @@ import fs from "fs";
 // upload.single("file"),
 router.post("/upload", (req: Request, res: Response) => {
   // console.log(req.file);
-  console.log(req.body);
-  // console.log(req.body.image);
   // const file = fs.readFileSync(req.file.path);
   // console.log(file);
+  console.log(req.body);
+  const decode = Buffer.from(req.body.image, "base64");
+  console.log(decode);
 
   // try {
   //   // s3Upload(bucket, key, body)
