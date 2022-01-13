@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import Joi from "joi";
 import auth from "../middleware/auth";
+import { s3Upload } from "../util/upload";
 
 import conn from "../db/maria";
 
@@ -157,7 +158,7 @@ router.post("/auction", auth, (req: Request, res: Response) => {
   });
 });
 
-/* 기존 업로드. 서버에도 저장된다. 실패작 */
+/* 기존 업로드. s3뿐만 아니라 서버에도 저장된다. 실패작 */
 // import { upload } from "../util/upload";
 // router.post("/upload", (req: Request, res: Response) => {
 //   // console.log("upload 실행!!!!!!!!!");
@@ -178,8 +179,6 @@ router.post("/auction", auth, (req: Request, res: Response) => {
 // });
 
 /* aws-sdk v3 업로드 */
-import { s3Upload } from "../util/upload";
-
 router.post("/upload", (req: Request, res: Response) => {
   const encoded = req.body.image;
   const modifiedEncoded = encoded.substring(encoded.indexOf(",") + 1);
