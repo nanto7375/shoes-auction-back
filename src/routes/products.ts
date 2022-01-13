@@ -183,28 +183,21 @@ import fs from "fs";
 
 // upload.single("file"),
 router.post("/upload", (req: Request, res: Response) => {
-  // console.log(req.file);
-  // const file = fs.readFileSync(req.file.path);
-  // console.log(file);
-  console.log(req.body);
+  // console.log(req.body);
   const decode = Buffer.from(req.body.image, "base64");
-  console.log(decode);
-
-  // try {
-  //   // s3Upload(bucket, key, body)
-  //   const data = s3Upload(
-  //     "shoespanda",
-  //     `picture/shoePic/${req.file.filename}`,
-  //     file
-  //   );
-  //   if (data) {
-  //     console.log("upload 성공!!!!!!!!!!");
-  //     res.json({ success: true, fileName: req.file.filename });
-  //   }
-  // } catch (error) {
-  //   console.log("upload 오류 발생!!!!!!!!");
-  //   res.status(500).send("사진 업로드에 실패했습니다.");
-  // }
+  // console.log(decode);
+  const filename = `${Date.now()}_${req.body.name}`;
+  try {
+    // s3Upload(bucket, key, body)
+    const data = s3Upload("shoespanda", `picture/shoePic/${filename}`, decode);
+    if (data) {
+      console.log("upload 성공!!!!!!!!!!");
+      res.json({ success: true, fileName: filename });
+    }
+  } catch (error) {
+    console.log("upload 오류 발생!!!!!!!!");
+    res.status(500).send("사진 업로드에 실패했습니다.");
+  }
 });
 
 router.post("/register", (req: Request, res: Response) => {
