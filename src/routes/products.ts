@@ -1,17 +1,11 @@
 import express, { Request, Response } from "express";
-import Joi from "joi";
 import auth from "../middleware/auth";
 import { s3Upload } from "../util/upload";
+import { auctionSchema } from "../util/schema";
 
 import conn from "../db/maria";
 
 const router = express.Router();
-
-const auctionSchema = Joi.object({
-  userId: Joi.string().max(20).required(),
-  productId: Joi.string().max(20).required(),
-  price: Joi.number().integer().max(99999999).required(),
-});
 
 router.get("/brandList", (req: Request, res: Response) => {
   const sql = `select bi_id, bi_name from t_brand_info where bi_isactive = 'y' order by bi_index`;
