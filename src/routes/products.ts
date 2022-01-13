@@ -182,21 +182,25 @@ import { s3Upload } from "../util/upload";
 
 router.post("/upload", (req: Request, res: Response) => {
   // console.log(req.body);
-  const decode = Buffer.from(req.body.image, "base64");
-  // console.log(decode);
+  const encoded = req.body.image;
+  const decoded = Buffer.from(
+    encoded.substring(encoded.indexOf("," + 2)),
+    "base64"
+  );
+  // console.log(decoded);
   const filename = `${Date.now()}_${req.body.name}`;
 
-  // try {
-  //   // s3Upload(bucket, key, body)
-  //   const data = s3Upload("shoespanda", `picture/shoePic/${filename}`, decode);
-  //   if (data) {
-  //     console.log("upload 성공!!!!!!!!!!");
-  //     res.json({ success: true, fileName: filename });
-  //   }
-  // } catch (error) {
-  //   console.log("upload 오류 발생!!!!!!!!");
-  //   res.status(500).send("사진 업로드에 실패했습니다.");
-  // }
+  try {
+    // s3Upload(bucket, key, body)
+    const data = s3Upload("shoespanda", `picture/shoePic/${filename}`, decoded);
+    if (data) {
+      console.log("upload 성공!!!!!!!!!!");
+      res.json({ success: true, fileName: filename });
+    }
+  } catch (error) {
+    console.log("upload 오류 발생!!!!!!!!");
+    res.status(500).send("사진 업로드에 실패했습니다.");
+  }
 });
 
 router.post("/register", (req: Request, res: Response) => {
