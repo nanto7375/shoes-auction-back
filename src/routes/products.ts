@@ -179,18 +179,35 @@ router.post("/auction", auth, (req: Request, res: Response) => {
 // });
 
 /* aws-sdk v3 업로드 */
-router.post("/upload", (req: Request, res: Response) => {
+router.post("/register", auth, (req: Request, res: Response) => {
   const encoded = req.body.image;
   const modifiedEncoded = encoded.substring(encoded.indexOf(",") + 1);
   const decoded = Buffer.from(modifiedEncoded, "base64");
-  const filename = `${Date.now()}_${req.body.name}`;
+  const filename = `${Date.now()}_${req.body.imageName}`;
 
   try {
     // s3Upload(bucket명, key(bucket 내 저장위치/파일명), body(이미지 객체))
     const data = s3Upload("shoespanda", `picture/shoePic/${filename}`, decoded);
     if (data) {
-      console.log("upload 성공!!!!!!!!!!");
-      res.json({ success: true, fileName: filename });
+      console.log("이미지 upload 성공!!!");
+      // res.json({ success: true, fileName: filename });
+      const body = req.body;
+      const sql = `call sp_insert_register('${body.productName}', '${body.userId}', '${body.brand}', '${body.size}', '${filename}', ${body.price}, ${body.period}, '${body.address}', '${body.bank}', '${body.account}')`;
+
+      // console.log(
+      //   `register의 sql문은 :\n ${sql}\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!`
+      // );
+
+      conn.query(sql, (error, result) => {
+        if (!error) {
+          // console.log(result);
+          if (result.affectedRows > 2) res.send();
+          else res.status(400).send("상품 등록에 실패했습니다.");
+        } else {
+          console.log("products/post/register error");
+          throw error;
+        }
+      });
     }
   } catch (error) {
     console.log("upload 오류 발생!!!!!!!!");
