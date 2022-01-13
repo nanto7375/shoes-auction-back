@@ -182,7 +182,7 @@ import { s3Upload } from "../util/upload";
 
 router.post("/upload", (req: Request, res: Response) => {
   // console.log(req.body);
-  console.log(req.body.image);
+  console.log(req.body);
   // const encoded = req.body.image;
   // const decoded = Buffer.from(
   //   encoded.substring(encoded.indexOf("," + 2)),
