@@ -47,6 +47,8 @@ export const s3Client = new S3Client({ region: "ap-northeast-2" });
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
+    console.log("여기는 upload");
+    console.log(file);
     cb(null, "./public/uploads");
   },
   filename: function (req, file, cb) {

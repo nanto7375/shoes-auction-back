@@ -184,37 +184,37 @@ import fs from "fs";
 import multipart from "parse-multipart";
 
 router.post("/upload", upload.single("file"), (req: Request, res: Response) => {
-  console.log(req.file.buffer, req.body);
-  // const file = fs.readFileSync(req.file.path);
-  // console.log(file);
+  console.log(req.file, req.body);
+  const file = fs.readFileSync(req.file.path);
+  console.log(file);
 
   // s3;
-  const s3Client = new S3Client({ region: "ap-northeast-2" });
-  const bucketParams = {
-    Bucket: "shoespanda",
-    Key: `picture/shoePic/${req.file.filename}`,
-    Body: req.file.buffer,
-  };
+  // const s3Client = new S3Client({ region: "ap-northeast-2" });
+  // const bucketParams = {
+  //   Bucket: "shoespanda",
+  //   Key: `picture/shoePic/${req.file.filename}`,
+  //   Body: file,
+  // };
 
-  console.log("여기 오나?");
+  // console.log("여기 오나?");
 
-  const run = async () => {
-    try {
-      console.log("여기는 오나?");
-      const data = await s3Client.send(new PutObjectCommand(bucketParams));
-      console.log(
-        "Successfully uploaded object: " +
-          bucketParams.Bucket +
-          "/" +
-          bucketParams.Key
-      );
-      return data; // For unit tests.
-    } catch (err) {
-      console.log("Error", err);
-    }
-  };
+  // const run = async () => {
+  //   try {
+  //     console.log("여기는 오나?");
+  //     const data = await s3Client.send(new PutObjectCommand(bucketParams));
+  //     console.log(
+  //       "Successfully uploaded object: " +
+  //         bucketParams.Bucket +
+  //         "/" +
+  //         bucketParams.Key
+  //     );
+  //     return data; // For unit tests.
+  //   } catch (err) {
+  //     console.log("Error", err);
+  //   }
+  // };
 
-  console.log(run());
+  // console.log(run());
 });
 
 router.post("/register", (req: Request, res: Response) => {
