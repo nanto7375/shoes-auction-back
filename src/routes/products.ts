@@ -1,7 +1,6 @@
 import express, { Request, Response } from "express";
 import Joi from "joi";
 import auth from "../middleware/auth";
-import { upload } from "../util/upload";
 
 import conn from "../db/maria";
 
@@ -159,6 +158,7 @@ router.post("/auction", auth, (req: Request, res: Response) => {
 });
 
 /* 기존 업로드 */
+// import { upload } from "../util/upload";
 // router.post("/upload", (req: Request, res: Response) => {
 //   // console.log("upload 실행!!!!!!!!!");
 
@@ -179,14 +179,13 @@ router.post("/auction", auth, (req: Request, res: Response) => {
 
 /* aws-sdk v3 업로드 */
 import { s3Upload } from "../util/upload";
-import fs from "fs";
 
-// upload.single("file"),
 router.post("/upload", (req: Request, res: Response) => {
   // console.log(req.body);
   const decode = Buffer.from(req.body.image, "base64");
   // console.log(decode);
   const filename = `${Date.now()}_${req.body.name}`;
+
   try {
     // s3Upload(bucket, key, body)
     const data = s3Upload("shoespanda", `picture/shoePic/${filename}`, decode);
