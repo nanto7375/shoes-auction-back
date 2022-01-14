@@ -1,7 +1,13 @@
 import express, { Request, Response } from "express";
 import auth from "../middleware/auth";
 import { s3Upload } from "../util/upload";
-import { auctionSchema } from "../util/schema";
+// import { auctionSchema } from "../util/schema";
+import Joi from "joi";
+const auctionSchema = Joi.object({
+  userId: Joi.string().max(20).required(),
+  productId: Joi.string().max(20).required(),
+  price: Joi.number().integer().max(99999999).required(),
+});
 
 import conn from "../db/maria";
 
