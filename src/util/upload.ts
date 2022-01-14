@@ -1,3 +1,5 @@
+// console.log(process.memoryUsage());
+
 /* s3 업로드 aws-sdk v3 */
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
@@ -23,6 +25,8 @@ export const s3Upload = async (bucket, key, body) => {
 // import multerS3 from "multer-s3";
 
 // import S3 from "aws-sdk/clients/s3";
+// import { S3 } from "aws-sdk";
+// 이걸로 하면 메모리 엄청 먹는다.
 
 // const s3 = new S3({
 //   accessKeyId: process.env.AWS_KEYID,

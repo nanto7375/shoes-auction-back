@@ -39,7 +39,8 @@ router.post("/login", (req: Request, res: Response) => {
 
 /* 회원가입 */
 router.post("/join", async (req: Request, res: Response) => {
-  const encryptedPassword = await bcrypt.hash(req.body.password, 10);
+  const salt = await bcrypt.genSalt(10);
+  const encryptedPassword = await bcrypt.hash(req.body.password, salt);
   const sql = `insert into t_member_info (mi_id, mi_pwd, mi_name, mi_phone, mi_address) 
                values ('${req.body.id}','${encryptedPassword}', '${
     req.body.name
